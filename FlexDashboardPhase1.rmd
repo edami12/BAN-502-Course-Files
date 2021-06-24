@@ -1,0 +1,61 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A - Total Square Feet 
+
+```{r}
+train %>%
+ filter(Gr_Liv_Area >= 480L & Gr_Liv_Area <= 4500L) %>%
+ ggplot() +
+ aes(x = Above_Median, y = Gr_Liv_Area) +
+ geom_boxplot(shape = "circle", fill = "#1D785B") +
+ theme_gray()
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B- Number of Full Baths 
+
+```{r}
+train %>%
+ filter(!(Full_Bath %in% c("0", "4"))) %>%
+ ggplot() +
+ aes(x = Full_Bath, fill = Above_Median) +
+ geom_bar(position = "stack") +
+ scale_fill_hue(direction = 1) +
+ theme_minimal()
+```
+
+### Chart C- Neighborhood
+
+
+```{r}
+ggplot(train,aes(x= Neighborhood ,fill=Above_Median)) + geom_bar() +
+  theme(axis.text.x = element_text(angle = 75, hjust = 1))
+```
+
+
+
+### Chart D- Overall Quality    
+
+```{r}
+ggplot(train,aes(x=Overall_Qual,fill=Above_Median)) + geom_bar() +
+  theme(axis.text.x = element_text(angle = 75, hjust = 1))
+```
+
